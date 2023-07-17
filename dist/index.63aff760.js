@@ -590,10 +590,88 @@ const a = 0.1;
 const b = 0.2;
 console.log(a + b) // 0.300...4 
 ;
+// toFixed(a): 소수점 a까지만 나타내줌. 하지만 숫자데이터를 문자데이터로 바꿈
 console.log((a + b).toFixed(1)) // 0.3
 ;
-// toFixed(a) - 소수점 a까지만 나타내줌. 하지만 숫자데이터를 문자데이터로 바꿈
+// Number: 숫자로 바꿔줌
 console.log(Number((a + b).toFixed(1)));
+// Boolean
+const c = true;
+const d = false;
+if (a) console.log("hello");
+// null
+let age = null // 명시적인 표현
+;
+console.log(age);
+// 1초 뒤에 숫자 넣어줌
+setTimeout(function() {
+    age = 85;
+    console.log(age);
+}, 1000);
+// undefined
+const User = {
+    name: "s",
+    age: 26
+};
+console.log(User.name);
+console.log(User.age);
+console.log(User.email) // 출력: undefined -값이 할당되지 않은 암시적인 상태
+;
+// 배열 데이터
+const fruits = new Array("Apple", "Banana", "Cherry");
+const fruits2 = [
+    "Apple",
+    "Banana",
+    "Cherry"
+] // array literal
+;
+console.log(fruits);
+console.log(fruits2);
+console.log(fruits[1]);
+console.log(fruits.length);
+console.log(fruits[fruits.length - 1]);
+// Object(객체) - 생성자 함수 형태
+// key(속성)&value(값)으로 구성
+const User2 = new Object();
+User2.name = "jioh";
+User2.age = 26;
+console.log(User2);
+// Object(객체) - function
+function User3() {
+    this.name = "jiohh";
+    this.age = 25;
+}
+console.log(User3);
+// Object(객체) - {} literal 방식
+const User4 = {
+    name: "jiohh",
+    age: 27,
+    age: 22
+};
+console.log(User4.name) // 점 표기법
+;
+console.log(User4["name"]) // 대괄호 표기법
+;
+console.log(User4) // 객체 데이터에서 키는 고유하고 순서가 없다
+;
+const UserA = {
+    name: "Ais",
+    age: 27
+};
+const UserB = {
+    name: "Bis",
+    age: 26,
+    parent: UserA
+};
+console.log(UserB);
+console.log(UserB.parent.name);
+console.log(UserB["parent"]["name"]);
+const Users = [
+    UserA,
+    UserB
+];
+console.log(Users);
+console.log(Users[0]);
 
 },{}]},["lmKb7","adjPd"], "adjPd", "parcelRequire82f9")
 
