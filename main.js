@@ -526,3 +526,119 @@ function getCity(user) {
 
 console.log(getCity(userC))
 console.log(getCity(userD)) // typeError방지 
+
+
+// if 조건문
+// 기본적으로 함수는 리턴값이 없으면 undefined 반환
+function isPositive(number) {
+    if (number > 0) {
+        return '양수'
+    } else {
+        return '음수'
+    }
+}
+
+console.log(isPositive(1))
+console.log(isPositive(-2))
+
+
+// switch 조건문
+function price(fruit) {
+    let p
+    switch(fruit) {
+        case 'apple':
+            p = 1000
+        case 'banana':
+            return p = 1500
+        case 'cherry':
+            p = 2000
+        default:
+            return 0
+    }
+    return p
+}
+
+console.log(price('apple'))
+console.log(price('hello'))
+
+
+// for 반복문
+// for(초기화; 조건; 증감) {
+//     반복 실행 코드
+// }
+for (let i = 0; i < 10; i++) {
+    console.log(i)
+}
+
+for (let i = 9; i >- 1; i--){
+    if (i<4) {
+        break
+    }
+    if (i % 2 === 0) {
+        continue // 현재반복만 종료하고 다음반복으로 넘어감
+    }
+    console.log(i)
+}
+
+
+// for of 반복문(배열)
+const fruits5 = ['apple', 'banana', 'cherry']
+for (let i = 0; i < fruits5.length; i++) {
+    console.log(fruits5[i])
+}
+
+for (const fruit of fruits5) {
+    console.log(fruit) // apple banana cherry
+}
+
+const users1 = [
+    {
+        name: "jioh",
+        age: 26
+    },
+    {
+        name: "neo",
+        age: 30
+    }
+]
+
+for (const user of users1) {
+    console.log(user)
+}
+
+
+// for in 반복문(객체 데이터)
+const users2 = {
+    name: 'jioh',
+    age: 26,
+    isValid: true,
+    email: 'ckaquz98@naver.com'
+}
+
+for (const key in users2) {
+    console.log(key,':' , users2[key])
+}
+
+
+// while 반복문 - 무한반복이 될 수 있으므로 조심
+let n1 = 0
+while (n1 < 4) {
+    console.log(n1)
+    n1++
+}
+
+
+// Do while 반복문 - 조건을 먼저 보지 않고 일단 do {} 부분을 실행 
+let n2 = 0
+// while(n2) {
+//     console.log // 출력값 x- false 이므로
+// }
+
+do {
+    console.log(n2)
+} while(n2)
+
+do {
+    console.log(n2)
+    n2++
+} while(n2 < 4)
