@@ -59,3 +59,4 @@ console.log(heropy2)
 console.log(neo2)
 console.log(heropy2.getFullName())  
 console.log(neo2.getFullName())
+
