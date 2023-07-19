@@ -642,3 +642,399 @@ do {
     console.log(n2)
     n2++
 } while(n2 < 4)
+
+
+// 함수
+// 함수 선언문
+// function hello() {}
+
+// 함수 표현식
+// const hello = function () {}
+
+// 호이스팅- 함수 선언부가 유효범위 최상단으로 끌어올려지는 현상
+hello2()
+
+function hello2() {
+    console.log("hello~")
+}
+// -> 함수 선언문의 경우 선언이 호출보다 아래줄에 적혀있는데도 에러없이 동작함(호이스팅). 함수 표현식은 불가
+
+// hello3()
+
+// const hello3 = function() {
+//     console.log("Hello!~")
+// }
+// -> 함수 표현식은 호출이 먼저나오면 에러 발생
+
+
+// 반환 및 종료
+function hello3() {
+    return 'hihi~'
+    // return 키워드는 데이터 반환뿐 아니라 함수 동작 멈춤 기능 제공- return 다음에 코드써도 동작 x
+    console.log("이 글씨는 안보여요")
+}
+
+console.log(hello3())
+
+
+function plus(num) {
+    return num + 1
+}
+
+console.log(plus(2)) // 3
+console.log(plus()) // NaN
+
+
+function plus2(num) {
+    if (typeof num !== 'number') {
+        console.log('숫자 입력해라')
+        return 0
+    }
+    return num + 1
+}
+
+console.log(plus2(2)) // 3
+console.log(plus2()) // NaN
+
+
+// 매개변수 패턴
+function sum(a, b) {
+    return a + b;
+
+}
+
+console.log(sum(1,2)) // 3
+console.log(sum(7)) // NaN(7 + undefined)
+
+// 1. 기본값 사용- 아무것도 들어오지 않았을 때 이 값 사용
+function sum2(a, b=1) {
+    return a + b;
+
+}
+
+console.log(sum2(1,2)) // 3
+console.log(sum2(7)) // 8(7+1)
+
+
+// 2. 객체 구조 분해 할당
+const users3 = {
+    name: 'jioh',
+    age: 25
+}
+
+// 객체 데이터 자체(name)를 매개변수 위치에서 구조 분해
+function getName({name}) {
+    return name
+}
+
+console.log(getName(users3))
+// -> getName이 호출될 때 들어가는건 객체데이터(users3)이고 그 객체데이터를 함수가 받음.
+// 근데 별도의 매개변수 이름은 지정되어있지 않고 받은 객체데이터를 구조 분해해서 name이라는 속성만 꺼내서 바로 리턴
+// 훨씬 더 문법이 간단해지는 장점
+
+// 이메일 없을 경우 기본값 지정
+function getEmail({email = '이메일 존재 x'}) {
+    return email
+}
+
+console.log(getEmail(users3)) // 이메일 존재 x
+
+
+// 3. 배열 구조 분해 할당
+const fruits6 = ['apple', 'banana', 'cherry']
+
+function getSecondItem(array) {
+    return array[1]
+}
+
+console.log(getSecondItem(fruits6)) // banana
+
+// 배열 구조 분해 실행
+function getSecondItem2([, b]) {
+    return b
+}
+
+console.log(getSecondItem(fruits6)) // banana
+
+const numbers = [1,2,3,4,5,6,7]
+console.log(getSecondItem(numbers))
+
+// 4. 나머지 매개변수 - 전개연산자 사용
+    // reduce - 배열데이터를 다루는 메소드
+    // reduce메소드는 배열데이터의 아이템 개수만큼 콜백함수 실행
+    // 초기에 acc는 초기값 0. cur은 첫 데이터 1이 들어감
+    // 반복시에 acc에는 1이 들어가고 cur에는 2가 들어감 -> return 3
+    // arguments: 유사배열(배열데이터는x)- reduce 매소드 사용할 수 없음(활용도 떨어짐)
+function sum3(...rest) {
+    console.log(rest)
+    console.log(arguments)
+    return rest.reduce(function(acc, cur) {
+        return acc + cur
+    }, 0)
+}
+
+console.log(sum3(1,2))
+console.log(sum3(1,2,3,4))
+
+
+
+// 화살표 함수(function 사용하지않음- 단순하게 쓸 수 있음). 자주쓰니까 잘 알아두자
+// -> 화살표함수는 함수 표현(선언x): 할당연산자를 사용하므로
+// const sum = () => {}
+
+// 일반 함수
+function sum4(a,b) {
+    return a+b
+}
+
+console.log(sum4(1,2)) // 3
+
+// 화살표 함수(중괄호, return 생략 가능)- 간단하게 한 줄로 작성 가능
+const sum5 = (a,b) => a+b
+
+console.log(sum5(4,5)) // 9
+
+const a22 = () => {}
+const b22 = x => {}  // 매개변수가 1개이면 () 생략 가능
+const c22 = x =>  x*x
+const d22 = () => {return {a:1}}
+const e22 = () => {a:1} // 잘못된 식- {a:1}이 데이터인지 확인 불가능
+const f22 = () => ({a:1}) // 객체데이터는 다음과 같이 소괄호()로 묶어줘야함
+const g22 = () => [1,2,3] // 배열데이터는 소괄호로 묶어줄 필요 x
+
+
+// 즉시 실행함수(IIFE, Immediately-Invoked Function Expression)
+const a23 = 7
+const double = () => {
+    console.log(a23 * 2)
+}
+
+double(a23) // ;붙여야 끝났다고 인식
+
+// 즉시 실행
+// ;붙여야 위에 코드 끝났다고 인식
+;(() => {
+    console.log(a23 * 2)
+})()
+
+;(() => {})()       // (F)()
+
+// 일반함수 즉시실행 4가지
+;(function () {console.log(a23 * 3)})() // (F)()
+;(function () {console.log(a23 * 4)}()) // (F())
+;!function () {console.log(a23 * 5)}()  // !F()
+;+function () {console.log(a23 * 6)}()  // +F()
+
+// 화살표 함수 즉시실행
+// 두 번째 소괄호()로 들어가는 데이터를 즉시실행 함수 매개변수에 전달
+// 전역데이터 이름을 간소화할 수 있음
+// 코드의 난독화가 있음
+;((a,b) => {
+    console.log(a.innerWidth)
+    console.log(b.body)
+})(window, document)
+
+
+// 콜백(하나의 함수)- 함수가 실행될 때 인수로 들어가는 또 다른 함수
+// a,b 모두 하나의 함수. a를 실행할 때 b라는 함수 자체를 인수로 넣어줌
+// 그 함수 데이터가 callback이라는 이름의 매개변수로 들어가지고 callback은 하나의 함수데이터이므로 소괄호를 열어서 실행 가능
+
+
+const a24 = callback => {
+    console.log('a')
+    callback()
+}
+const b24 = () => {
+    console.log('b')
+}
+
+a24(b24) // a함수가 호출될 때 b라는 함수데이터가 인수로 들어감. b: 콜백함수
+
+const sum6 = (a,b,c) => {
+    setTimeout(() => {
+        c(a+b)
+    }, 1000)
+}
+
+// sum6함수가 호출될 때 첫 번째, 두번째 인수는 숫자데이터가 들어감(1,2는 a,b라는 매개변수가 받음)
+// 세 번째 임수로는 하나의 함수데이터가 들어감. 그것을 c라는 매개변수가 받음
+// sum6함수 내의 setTimeout함수를 통해 1초 뒤에 해당하는 코드를 실행
+// c라는 함수는 sum6가 호출될 때 만들어진 3번째 인수에 해당하는 함수이므로 a+b를 value라는 매개변수로 받아 출력
+sum6(1,2, value => {
+    console.log(value)
+})
+
+
+// 콜백 이미지 로드
+// https://www.gstatic.com/webp/gallery/4.jpg
+// loadImage라는 함수가 호출이 되면 document.createElement를 통해 이미지태그를 js메모리상에서 생성
+// img태그의 src속성에 url 정보 할당
+// img태그에 addEventListener를 통해 load 이벤트를 추가
+// load 이벤트는 src 속성에 부여된 이미지 주소를 로드하는 이벤트
+// 주소 로드가 끝나면 콜백 실행
+// cb()가 호출되는 시점은 이미지 로드가 끝난상태
+const loadImage = (url, cb) => {
+    const imgEl = document.createElement('img')
+    imgEl.src = url
+    imgEl.addEventListener('load', () => {
+        setTimeout(() => {
+            cb(imgEl)
+        }, 1000)
+    })
+}
+
+const containerEl = document.querySelector('.container')
+loadImage('https://www.gstatic.com/webp/gallery/4.jpg', imgEl => {
+    containerEl.innerHTML = ""
+    containerEl.append(imgEl)
+})
+
+
+// 재귀(함수 자기 자신을 내부에서 호출)
+// 기본적으로 무한동작하므로 멈추는 것 설정해야 함
+let i = 0
+const a25 = () => {
+    console.log('aaa')
+    i += 1
+    if (i < 4) {
+    a25()
+    }
+}
+a25()
+
+const userA1 = {name: 'a', parent: null}
+const userB1 = {name: 'b', parent: userA1}
+const userC1 = {name: 'c', parent: userB1}
+const userD1 = {name: 'd', parent: userC1}
+
+// 
+const getRootUser = user => {
+    if (user.parent) {
+        return getRootUser(user.parent)
+    }
+    return user
+}
+
+console.log(getRootUser(userD1))
+console.log(getRootUser(userC1))
+console.log(getRootUser(userB1))
+console.log(getRootUser(userA1))
+
+
+// 호출 스케줄링
+// 2초내에 h1태그를 클릭하면 함수 종료. 클릭하지 않으면 함수 실행
+// setTimeout: 2초뒤에 helloo 함수 실행
+const helloo = () => {
+    console.log('hello~~')
+}
+
+const timeout = setTimeout(helloo, 2000)
+const h1El = document.querySelector('h1')
+h1El.addEventListener('click', () => {
+    console.log("clear!")
+    clearTimeout(timeout)
+})
+
+// setIntetval: 2초마다 helloo 함수 실행
+const timeout1 = setInterval(helloo, 2000)
+const h1E12 = document.querySelector('h1')
+h1E12.addEventListener('click', () => {
+    console.log("clear!~~")
+    clearInterval(timeout)
+})
+
+
+// this
+// 일반 함수의 this: 호출 위치에서 정의
+// 화살표 함수의 this: 자신이 선언된 함수(렉시컬) 범위에서 정의
+const userss = {
+    firstName: "hero",
+    lastName: "iam",
+    age: 85,
+    getFullName: function() {
+        this.firstName
+        this.lastName
+        return `${this.firstName} ${this.lastName}`
+    }
+}
+
+console.log(userss.getFullName())
+
+function userss2() {
+    this.firstName = "neo"
+    this.lastName =  "you"
+    
+    return {
+        firstName: "hero",
+        lastName: "iam",
+        age: 85,
+        getFullName: () => {
+            return `${this.firstName} ${this.lastName}` // neo you
+        }
+    }
+}
+
+const u1 = userss2()
+console.log(u1.getFullName())
+
+// 하나의 객체데이터에서 특정한 속성에 함수를 할당하면 속성을 메소드라 함
+// 속성과 메소드를 묶어서 멤버라고도 함
+function userss3() {
+    // 속성 부분
+    this.firstName = "neo"
+    this.lastName =  "you"
+    return {
+        firstName: "hero",
+        lastName: "iam",
+        age: 85,
+        // getFullName: 속성이긴하지만 할당데이터가 함수데이터.
+        //  -> 속성이 아닌 메소드라 부름
+        // getFullName: function() 대신 getFullName()만 쓰는 것도 가능
+        getFullName() {
+            return `${this.firstName} ${this.lastName}` // hero iam
+        }
+    }
+}
+
+const lewis = {
+    firstName: 'Lewis',
+    lastName: 'Yang'
+}
+
+const u2 = userss3()
+console.log(u2.getFullName())
+
+// lewis라는 객체데이터는 u2라는 객체가 가지고있는 getFullName메소드를 빌려서 call할 수 있음
+console.log(u2.getFullName.call(lewis)) // Lewis Yang
+
+
+// 일반 함수
+const timer = {
+    title: 'TIMER',
+    // timeout은 함수데이터가 할당되므로 속성x, 메소드
+    timeout: function() {
+        console.log(this.title)
+        // setTimeout: 몇초뒤에 함수 실행시킴
+        // 일반함수에서의 this: 호출위치에서 정의
+        // setTimeout 내부에서 호출. 우리는 this가 뭔지 모름
+        // 함수 내부에서 또 다른 함수가 들어있는 구조면 일반 함수보다 화살표 함수 쓰는 것이 더 적합함
+        setTimeout(function() {
+            console.log(this.title) // undefined
+        }, 1000)
+    }
+}
+
+timer.timeout()
+
+// 화살표 함수
+const timer2 = {
+    title: 'TIMER',
+    timeout() {
+        console.log(this.title)
+        setTimeout( () => {
+            console.log(this.title) // TIMER
+        }, 1000)
+    }
+}
+
+timer2.timeout()
