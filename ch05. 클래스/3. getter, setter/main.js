@@ -1,5 +1,4 @@
 // Getter, Setter 
-
 class User {
     constructor(first, last) {
         this.firstName = first
