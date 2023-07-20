@@ -71,4 +71,6 @@ console.log(users2.includes({name: 'neo', age: 85}))    // false
 // 값이 같아도 다른 데이터로 취급하므로 False가 나옴
 
 const neo = users2[0]
-console.log(users2.includes(neo))
+console.log(users2.includes(neo))   // true
+// -> 참조형은 할당된 변수(메모리의 주소)를 비교해야 함
+// neo에는 users2[0]의 메모리 주소가 할당되므로 같은 데이터이므로 True가 나옴
