@@ -36,6 +36,7 @@ console.log(result3)    // {a: 1, b: 3, c: 5, d: 6}
 
 // Object.entries()
 // 주어진 객체의 각 속성과 값으로 하나의 배열을 만들어 요소로 추가한 2차원 배열 반환
+// key, value 모두 출력 
 
 const user = {
     name: "heropy",
