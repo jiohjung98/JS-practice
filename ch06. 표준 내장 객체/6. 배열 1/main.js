@@ -43,9 +43,14 @@ console.log(isValid2)   // false
 
 
 // .filter()
-// 주어진 콜백 테스트를 통과(참을 반환)하는 모든 요소를 새로운 배열로 반환
+// 콜백: 함수에 인수로 사용되는 또  다른 함수(number => number < 30)
+// 주어진 콜백 테스트를 통과(참을 반환)하는 모든 요소(배열 안의 각각의 데이터 - item, element)를 새로운 배열로 반환
 // 모든 요소가 테스트를 통과하지 못하면 빈 배열 반환
 const numbers = [1,20,7,9,104,0,58]
 const filteredNumbers = numbers.filter(number => number < 30)
 
-console.log(filteredNumbers)    // 
+console.log(filteredNumbers)    // [1, 20, 7, 0]
+
+const filteredNumbers2 = numbers.filter(number => number < 0)
+
+console.log(filteredNumbers2)    // [] - 빈 배열 반환
