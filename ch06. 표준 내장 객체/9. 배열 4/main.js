@@ -133,3 +133,4 @@ const arraylike2 = {
 
 console.log(Array.isArray(array))       // true
 console.log(Array.isArray(arraylike2))  // false
+
