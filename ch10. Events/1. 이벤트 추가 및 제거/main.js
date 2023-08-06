@@ -27,5 +27,5 @@ const handler = () => {
 
 parentEl.addEventListener('click', handler)
 childEl.addEventListener('click', () => {
-    parentEl.removeEventListener('click', handler)
+parentEl.removeEventListener('click', handler)
 })
