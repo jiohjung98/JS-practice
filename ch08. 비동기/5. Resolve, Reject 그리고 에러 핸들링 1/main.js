@@ -35,6 +35,7 @@ delayAdd(9)
 
 
 // async, await -> try&catch 사용
+// finally - 앞에서 뭐가 실행되는가에 상관없이 항상 실행됨
 const wrap = async () => {
     try {
         const res = await delayAdd(12)
