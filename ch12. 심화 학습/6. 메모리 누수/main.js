@@ -52,6 +52,7 @@ setTimeout(() => {
 const getFn = () => {
     let a = 0
     return name => {
+        // 메모리 누수가 일어나는 부분
         // a += 1
         // console.log(a)
         return `Hello ${name}~`
