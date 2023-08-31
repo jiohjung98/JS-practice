@@ -59,6 +59,7 @@ const getFn = () => {
     }
 }
 
+
 const fn = getFn()
 console.log(fn("Kim"))
 console.log(fn("Neo"))
