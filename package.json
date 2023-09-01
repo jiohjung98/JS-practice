@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "dev": "parcel ./index.html",
+    "dev": "parcel 'ch14. 컴포넌트/index.html'",
     "build": "parcel build ./index.html"
   },
   "keywords": [],
@@ -13,7 +13,8 @@
     "lodash": "^4.17.21"
   },
   "devDependencies": {
-    "parcel": "^2.9.3"
+    "parcel": "^2.9.3",
+    "parcel-bundler": "^1.12.5"
   },
   "type": "module"
 }
