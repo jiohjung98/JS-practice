@@ -621,6 +621,8 @@ exports.export = function(dest, destName, get) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _heropyJs = require("./core/heropy.js");
+var _fruitItemJs = require("./components/FruitItem.js");
+var _fruitItemJsDefault = parcelHelpers.interopDefault(_fruitItemJs);
 class App extends (0, _heropyJs.Component) {
     // constructor()와 super()가 비어있으면 제거해도 괜찮음
     constructor(){
@@ -660,18 +662,34 @@ class App extends (0, _heropyJs.Component) {
             console.log(this.state.inputText);
         });
         console.log(this.state.fruits);
+        // innerHTML 사용
+        // this.el.innerHTML = /* html */ `
+        // <h1>Fruits</h1>
+        // <ul>
+        //     <!-- 데이터 기반으로 작성 -->
+        //     ${this.state.fruits.filter(fruit =>
+        //         fruit.price < 3000)
+        //         .map(fruit => `<li>${fruit.name}</li>`)
+        //         .join('')}
+        // </ul>
+        // `
         this.el.innerHTML = /* html */ `
         <h1>Fruits</h1>
         <ul>
-            <!-- 데이터 기반으로 작성 -->
-            ${this.state.fruits.filter((fruit)=>fruit.price < 3000).map((fruit)=>`<li>${fruit.name}</li>`).join("")}
         </ul>
         `;
+        const ulEl = this.el.querySelector("ul");
+        ulEl.append(...this.state.fruits.filter((fruit)=>fruit.price < 3000).map((fruit)=>new (0, _fruitItemJsDefault.default)({
+                props: {
+                    name: fruit.name,
+                    price: fruit.price
+                }
+            }).el));
     }
 }
 exports.default = App;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./core/heropy.js":"kVcDV"}],"kVcDV":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./core/heropy.js":"kVcDV","./components/FruitItem.js":"1yj35"}],"kVcDV":[function(require,module,exports) {
 // 컴포넌트 
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
@@ -679,9 +697,10 @@ parcelHelpers.export(exports, "Component", ()=>Component);
 class Component {
     constructor(payload = {}){
         // tagName 기본값 div로 설정(아무것도 입력안되면 기본값은 div로)
-        const { tagName = "div", state = {} } = payload;
+        const { tagName = "div", state = {}, props = {} } = payload;
         this.el = document.createElement(tagName);
         this.state = state;
+        this.props = props;
         this.render();
     }
     render() {
@@ -689,6 +708,31 @@ class Component {
     }
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["1Tveh","1XA8E"], "1XA8E", "parcelRequire82f9")
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"1yj35":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _heropyJs = require("../core/heropy.js");
+class FruitItem extends (0, _heropyJs.Component) {
+    constructor(payload){
+        // super() 부분은 상속받은 Component가 실행되는 부분
+        // payload 라는 매개변수에서 super()함수로 payload.props를 다시 Props에 할당
+        super({
+            tagName: "li",
+            props: payload.props
+        });
+    }
+    render() {
+        this.el.innerHTML = /* html */ `
+        <span>${this.props.name}</span>
+        <span>${this.props.price}</span>
+        `;
+        this.el.addEventListener("click", ()=>{
+            console.log(this.props.name, this.props.price);
+        });
+    }
+}
+exports.default = FruitItem;
+
+},{"../core/heropy.js":"kVcDV","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["1Tveh","1XA8E"], "1XA8E", "parcelRequire82f9")
 
 //# sourceMappingURL=index.6fe6bb4d.js.map

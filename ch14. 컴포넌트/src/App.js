@@ -6,6 +6,7 @@
 // }
 
 import { Component } from './core/heropy.js';
+import FruitItem from './components/FruitItem.js';
 
 export default class App extends Component {
     // constructor()와 super()가 비어있으면 제거해도 괜찮음
@@ -40,16 +41,32 @@ export default class App extends Component {
         })
         console.log(this.state.fruits)
 
+        // innerHTML 사용
+        // this.el.innerHTML = /* html */ `
+        // <h1>Fruits</h1>
+        // <ul>
+        //     <!-- 데이터 기반으로 작성 -->
+        //     ${this.state.fruits.filter(fruit =>
+        //         fruit.price < 3000)
+        //         .map(fruit => `<li>${fruit.name}</li>`)
+        //         .join('')}
+        // </ul>
+        // `
 
         this.el.innerHTML = /* html */ `
         <h1>Fruits</h1>
         <ul>
-            <!-- 데이터 기반으로 작성 -->
-            ${this.state.fruits.filter(fruit =>
-                fruit.price < 3000)
-                .map(fruit => `<li>${fruit.name}</li>`)
-                .join('')}
         </ul>
         `
+        const ulEl = this.el.querySelector('ul')
+        ulEl.append(...this.state.fruits
+            .filter(fruit => fruit.price < 3000)
+            .map(fruit => new FruitItem({
+                props: {
+                    name: fruit.name,
+                    price: fruit.price
+                }
+            }).el)
+        )
     }
 }
