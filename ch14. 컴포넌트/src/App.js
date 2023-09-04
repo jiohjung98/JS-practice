@@ -7,6 +7,7 @@
 
 import { Component } from './core/heropy.js';
 import FruitItem from './components/FruitItem.js';
+import TheHeader from './components/TheHeader.js';
 
 export default class App extends Component {
     // constructor()와 super()가 비어있으면 제거해도 괜찮음
@@ -67,6 +68,11 @@ export default class App extends Component {
                     price: fruit.price
                 }
             }).el)
+        )
+        const routerView = document.createElement('router-view')
+        this.el.append(
+            new TheHeader().el,
+            routerView
         )
     }
 }

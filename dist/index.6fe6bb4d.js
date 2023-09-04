@@ -623,6 +623,8 @@ parcelHelpers.defineInteropFlag(exports);
 var _heropyJs = require("./core/heropy.js");
 var _fruitItemJs = require("./components/FruitItem.js");
 var _fruitItemJsDefault = parcelHelpers.interopDefault(_fruitItemJs);
+var _theHeaderJs = require("./components/TheHeader.js");
+var _theHeaderJsDefault = parcelHelpers.interopDefault(_theHeaderJs);
 class App extends (0, _heropyJs.Component) {
     // constructor()와 super()가 비어있으면 제거해도 괜찮음
     constructor(){
@@ -685,11 +687,13 @@ class App extends (0, _heropyJs.Component) {
                     price: fruit.price
                 }
             }).el));
+        const routerView = document.createElement("router-view");
+        this.el.append(new (0, _theHeaderJsDefault.default)().el, routerView);
     }
 }
 exports.default = App;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./core/heropy.js":"kVcDV","./components/FruitItem.js":"1yj35"}],"kVcDV":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./core/heropy.js":"kVcDV","./components/FruitItem.js":"1yj35","./components/TheHeader.js":"3t31c"}],"kVcDV":[function(require,module,exports) {
 // 컴포넌트 
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
@@ -732,6 +736,25 @@ class FruitItem extends (0, _heropyJs.Component) {
     }
 }
 exports.default = FruitItem;
+
+},{"../core/heropy.js":"kVcDV","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"3t31c":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _heropyJs = require("../core/heropy.js");
+class TheHeader extends (0, _heropyJs.Component) {
+    constructor(){
+        super({
+            tagName: "header"
+        });
+    }
+    render() {
+        this.el.innerHTML = /* html */ `
+                <a href="#/">Main!</a>
+                <a href="#/about">About!</a>
+            `;
+    }
+}
+exports.default = TheHeader;
 
 },{"../core/heropy.js":"kVcDV","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["1Tveh","1XA8E"], "1XA8E", "parcelRequire82f9")
 
