@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "dev": "parcel 'ch14. 컴포넌트/index.html'",
-    "build": "parcel build ./index.html"
+    "build": "parcel build 'ch14. 컴포넌트/index.html'"
   },
   "keywords": [],
   "author": "",

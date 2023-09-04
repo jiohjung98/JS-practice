@@ -575,36 +575,13 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 
 },{}],"1XA8E":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-var _app = require("./App");
-var _appDefault = parcelHelpers.interopDefault(_app);
+var _appJs = require("./App.js");
+var _appJsDefault = parcelHelpers.interopDefault(_appJs);
 const root = document.querySelector("#root");
 // App
-root.append(new (0, _appDefault.default)().el);
+root.append(new (0, _appJsDefault.default)().el);
 
-},{"./App":"1yvPi","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"1yvPi":[function(require,module,exports) {
-// export default class App {
-//     constructor() {
-//         this.el = document.createElement('div');
-//         this.el.textContent = 'Hello World!';
-//     }
-// }
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var _heropy = require("./core/heropy");
-class App extends (0, _heropy.Component) {
-    constructor(){
-        // super() - 컴포넌트라는 app에서 상속하고 있는 그 클래스의 컨스트럭터 부분을 실행하는 부분
-        super({
-            tagName: "h1"
-        });
-    }
-    render() {
-        this.el.textContent = "Hello World!";
-    }
-}
-exports.default = App;
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./core/heropy":"kVcDV"}],"gkKU3":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./App.js":"1yvPi"}],"gkKU3":[function(require,module,exports) {
 exports.interopDefault = function(a) {
     return a && a.__esModule ? a : {
         default: a
@@ -634,7 +611,46 @@ exports.export = function(dest, destName, get) {
     });
 };
 
-},{}],"kVcDV":[function(require,module,exports) {
+},{}],"1yvPi":[function(require,module,exports) {
+// export default class App {
+//     constructor() {
+//         this.el = document.createElement('div');
+//         this.el.textContent = 'Hello World!';
+//     }
+// }
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _heropyJs = require("./core/heropy.js");
+class App extends (0, _heropyJs.Component) {
+    // constructor()와 super()가 비어있으면 제거해도 괜찮음
+    constructor(){
+        // super() - 컴포넌트라는 app에서 상속하고 있는 그 클래스의 컨스트럭터 부분을 실행하는 부분
+        // super() 안의 객체 데이터는 heropy.js에 component의 payload로 받을 수 있음
+        super({
+            state: {
+                inputText: ""
+            }
+        });
+    }
+    render() {
+        this.el.classList.add("search");
+        this.el.innerHTML = /* html */ `
+        <input />
+        <button>Click!</button>
+        `;
+        const inputEl = this.el.querySelector("input");
+        inputEl.addEventListener("input", ()=>{
+            this.state.inputText = inputEl.value;
+        });
+        const buttonEl = this.el.querySelector("button");
+        buttonEl.addEventListener("click", ()=>{
+            console.log(this.state.inputText);
+        });
+    }
+}
+exports.default = App;
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./core/heropy.js":"kVcDV"}],"kVcDV":[function(require,module,exports) {
 // 컴포넌트 
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
@@ -642,8 +658,9 @@ parcelHelpers.export(exports, "Component", ()=>Component);
 class Component {
     constructor(payload = {}){
         // tagName 기본값 div로 설정(아무것도 입력안되면 기본값은 div로)
-        const { tagName = "div" } = payload;
+        const { tagName = "div", state = {} } = payload;
         this.el = document.createElement(tagName);
+        this.state = state;
         this.render();
     }
     render() {
