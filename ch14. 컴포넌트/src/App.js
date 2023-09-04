@@ -14,7 +14,11 @@ export default class App extends Component {
         // super() 안의 객체 데이터는 heropy.js에 component의 payload로 받을 수 있음
         super({
             state: {
-                inputText: ''
+                fruits: [
+                    {name: 'apple', price: 1000},
+                    {name: 'banana', price: 2000},
+                    {name: 'cherry', price: 3000}
+                ]
             }
         })
     }
@@ -34,5 +38,18 @@ export default class App extends Component {
         buttonEl.addEventListener('click', () => {
                     console.log(this.state.inputText)
         })
+        console.log(this.state.fruits)
+
+
+        this.el.innerHTML = /* html */ `
+        <h1>Fruits</h1>
+        <ul>
+            <!-- 데이터 기반으로 작성 -->
+            ${this.state.fruits.filter(fruit =>
+                fruit.price < 3000)
+                .map(fruit => `<li>${fruit.name}</li>`)
+                .join('')}
+        </ul>
+        `
     }
 }
