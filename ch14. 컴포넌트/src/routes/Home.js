@@ -1,4 +1,4 @@
-import { Component } from '../core/heropy/js'
+import { Component } from '../core/heropy.js'
 
 export default class Home extends Component {
     render() {

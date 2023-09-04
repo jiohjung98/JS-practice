@@ -1,6 +1,6 @@
 import { createRouter } from '../core/heropy.js';
-import Home from './Home'
-import About from './About'
+import Home from './Home.js'
+import About from './About.js'
 
 
 export default createRouter([

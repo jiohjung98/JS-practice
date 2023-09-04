@@ -577,11 +577,14 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 var _appJs = require("./App.js");
 var _appJsDefault = parcelHelpers.interopDefault(_appJs);
+var _indexJs = require("./routes/index.js");
+var _indexJsDefault = parcelHelpers.interopDefault(_indexJs);
 const root = document.querySelector("#root");
 // App
 root.append(new (0, _appJsDefault.default)().el);
+(0, _indexJsDefault.default)();
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./App.js":"1yvPi"}],"gkKU3":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./App.js":"1yvPi","./routes/index.js":"kcdl5"}],"gkKU3":[function(require,module,exports) {
 exports.interopDefault = function(a) {
     return a && a.__esModule ? a : {
         default: a
@@ -698,7 +701,12 @@ exports.default = App;
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "Component", ()=>Component);
+parcelHelpers.export(exports, "createRouter", ()=>createRouter);
 class Component {
+    // Component라는 클래스는 호출될 때 객체데이터를 인수로 받는데, 객체데이터를 payload()라는 매개변수로 받아서
+    // payload()안에서 tagName, state, props라는 내용으로 꺼내서 쓸 수 있음
+    // this. 으로 내용을 할당해주고
+    // render() 부분에서 사용
     constructor(payload = {}){
         // tagName 기본값 div로 설정(아무것도 입력안되면 기본값은 div로)
         const { tagName = "div", state = {}, props = {} } = payload;
@@ -710,6 +718,39 @@ class Component {
     render() {
     // ...
     }
+}
+// Router 기능
+function routeRender(routes) {
+    if (!location.hash) history.replaceState(null, "", "/#/");
+    const routerView = document.querySelector("router-view");
+    // location.hash => 주소의 hash값을 얻을 수 있음
+    // http://localhost:1234/#/about?heropy
+    // #/about?name=heropy
+    // -> ?기준으로 앞쪽: 해쉬, 뒤쪽: 쿼리스트링
+    // -> 물음표를 기준으로 해쉬값을 알아야 함
+    const [hash, queryString = ""] = location.hash.split("?");
+    // a=123&b=456
+    // ['a=123', 'b=456']
+    // {a: '123', b: '456'}
+    queryString.split("&").reduce((acc, cur)=>{
+        const [key, value] = cur.split("=");
+        acc[key] = value;
+        return acc;
+    }, {});
+    history.replaceState(null, "");
+    const currentRoute = routes.find((route)=>// 정규표현식 사용
+        new RegExp(`${route.path}/?$`).test(hash));
+    routerView.innerHTML = "";
+    routerView.append(new currentRoute.component().el);
+    window.scrollTo(0, 0);
+}
+function createRouter(routes) {
+    return function() {
+        window.addEventListener("popstate", ()=>{
+            routeRender(routes);
+        });
+        routeRender(routes);
+    };
 }
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"1yj35":[function(require,module,exports) {
@@ -756,6 +797,51 @@ class TheHeader extends (0, _heropyJs.Component) {
 }
 exports.default = TheHeader;
 
-},{"../core/heropy.js":"kVcDV","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["1Tveh","1XA8E"], "1XA8E", "parcelRequire82f9")
+},{"../core/heropy.js":"kVcDV","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"kcdl5":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _heropyJs = require("../core/heropy.js");
+var _homeJs = require("./Home.js");
+var _homeJsDefault = parcelHelpers.interopDefault(_homeJs);
+var _aboutJs = require("./About.js");
+var _aboutJsDefault = parcelHelpers.interopDefault(_aboutJs);
+exports.default = (0, _heropyJs.createRouter)([
+    {
+        path: "#/",
+        component: (0, _homeJsDefault.default)
+    },
+    {
+        path: "#/about",
+        component: (0, _aboutJsDefault.default)
+    }
+]);
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../core/heropy.js":"kVcDV","./Home.js":"5Ct2a","./About.js":"eoZyX"}],"5Ct2a":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _heropyJs = require("../core/heropy.js");
+class Home extends (0, _heropyJs.Component) {
+    render() {
+        this.el.innerHTML = /* html */ `
+            <h1>Home Page!</h1>
+        `;
+    }
+}
+exports.default = Home;
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../core/heropy.js":"kVcDV"}],"eoZyX":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _heropyJs = require("../core/heropy.js");
+class About extends (0, _heropyJs.Component) {
+    render() {
+        this.el.innerHTML = /* html */ `
+            <h1>About Page!</h1>
+        `;
+    }
+}
+exports.default = About;
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../core/heropy.js":"kVcDV"}]},["1Tveh","1XA8E"], "1XA8E", "parcelRequire82f9")
 
 //# sourceMappingURL=index.6fe6bb4d.js.map
