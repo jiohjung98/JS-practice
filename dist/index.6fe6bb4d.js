@@ -696,7 +696,7 @@ class App extends (0, _heropyJs.Component) {
 }
 exports.default = App;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./core/heropy.js":"kVcDV","./components/FruitItem.js":"1yj35","./components/TheHeader.js":"3t31c"}],"kVcDV":[function(require,module,exports) {
+},{"./core/heropy.js":"kVcDV","./components/FruitItem.js":"1yj35","./components/TheHeader.js":"3t31c","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"kVcDV":[function(require,module,exports) {
 // 컴포넌트 
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
@@ -763,12 +763,14 @@ class Store {
             get: ()=>state[key],
             set: (val)=>{
                 state[key] = val;
-                this.observers[key]();
+                this.observers[key].forEach((observer)=>observer(val));
             }
         });
     }
     subscribe(key, cb) {
-        this.observers[key] = cb;
+        Array.isArray(this.observers[key]) ? this.observers[key].push(cb) : this.observers[key] = [
+            cb
+        ];
     }
 }
 
@@ -835,7 +837,7 @@ exports.default = (0, _heropyJs.createRouter)([
     }
 ]);
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../core/heropy.js":"kVcDV","./Home.js":"5Ct2a","./About.js":"eoZyX"}],"5Ct2a":[function(require,module,exports) {
+},{"../core/heropy.js":"kVcDV","./Home.js":"5Ct2a","./About.js":"eoZyX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"5Ct2a":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _heropyJs = require("../core/heropy.js");
@@ -843,17 +845,19 @@ var _textFieldJs = require("../components/TextField.js");
 var _textFieldJsDefault = parcelHelpers.interopDefault(_textFieldJs);
 var _messageJs = require("../components/Message.js");
 var _messageJsDefault = parcelHelpers.interopDefault(_messageJs);
+var _titleJs = require("../components/Title.js");
+var _titleJsDefault = parcelHelpers.interopDefault(_titleJs);
 class Home extends (0, _heropyJs.Component) {
     render() {
         this.el.innerHTML = /* html */ `
             <h1>Home Page!</h1>
         `;
-        this.el.append(new (0, _textFieldJsDefault.default)().el, new (0, _messageJsDefault.default)().el);
+        this.el.append(new (0, _textFieldJsDefault.default)().el, new (0, _messageJsDefault.default)().el, new (0, _titleJsDefault.default)().el);
     }
 }
 exports.default = Home;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../core/heropy.js":"kVcDV","../components/TextField.js":"kikcd","../components/Message.js":"8TIlP"}],"kikcd":[function(require,module,exports) {
+},{"../core/heropy.js":"kVcDV","../components/TextField.js":"kikcd","../components/Message.js":"8TIlP","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../components/Title.js":"lE72b"}],"kikcd":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _heropyJs = require("../core/heropy.js");
@@ -872,7 +876,7 @@ class TextField extends (0, _heropyJs.Component) {
 }
 exports.default = TextField;
 
-},{"../core/heropy.js":"kVcDV","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../store/message.js":"eBQxf"}],"eBQxf":[function(require,module,exports) {
+},{"../core/heropy.js":"kVcDV","../store/message.js":"eBQxf","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"eBQxf":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _heropyJs = require("../core/heropy.js");
@@ -901,7 +905,28 @@ class Message extends (0, _heropyJs.Component) {
 }
 exports.default = Message;
 
-},{"../core/heropy.js":"kVcDV","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../store/message.js":"eBQxf"}],"eoZyX":[function(require,module,exports) {
+},{"../core/heropy.js":"kVcDV","../store/message.js":"eBQxf","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"lE72b":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _heropyJs = require("../core/heropy.js");
+var _messageJs = require("../store/message.js");
+var _messageJsDefault = parcelHelpers.interopDefault(_messageJs);
+class Title extends (0, _heropyJs.Component) {
+    constructor(){
+        super({
+            tagName: "h1"
+        });
+        (0, _messageJsDefault.default).subscribe("message", ()=>{
+            this.render();
+        });
+    }
+    render() {
+        this.el.textContent = `Title: ${(0, _messageJsDefault.default).state.message}`;
+    }
+}
+exports.default = Title;
+
+},{"../core/heropy.js":"kVcDV","../store/message.js":"eBQxf","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"eoZyX":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _heropyJs = require("../core/heropy.js");
@@ -914,6 +939,6 @@ class About extends (0, _heropyJs.Component) {
 }
 exports.default = About;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../core/heropy.js":"kVcDV"}]},["1Tveh","1XA8E"], "1XA8E", "parcelRequire82f9")
+},{"../core/heropy.js":"kVcDV","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["1Tveh","1XA8E"], "1XA8E", "parcelRequire82f9")
 
 //# sourceMappingURL=index.6fe6bb4d.js.map
