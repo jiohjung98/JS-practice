@@ -69,3 +69,26 @@ export function createRouter(routes) {
         routeRender(routes)
     }
 }
+
+
+// store //
+export class Store {
+    constructor(state) {
+        this.state = {}
+        this.observers = {}
+        // 객체데이터 반복 - For in
+        for (const key in state) {
+            Object.defineProperty(this.state, key, {
+                get: () => state[key],   // state['message']
+                set: (val) => {
+                    state[key] = val
+                    this.observers[key]()
+                }
+            })
+        }
+
+    }
+    subscribe(key, cb) {
+        this.observers[key] = cb
+    }
+}

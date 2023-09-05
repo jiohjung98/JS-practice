@@ -702,6 +702,8 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "Component", ()=>Component);
 parcelHelpers.export(exports, "createRouter", ()=>createRouter);
+// store //
+parcelHelpers.export(exports, "Store", ()=>Store);
 class Component {
     // Component라는 클래스는 호출될 때 객체데이터를 인수로 받는데, 객체데이터를 payload()라는 매개변수로 받아서
     // payload()안에서 tagName, state, props라는 내용으로 꺼내서 쓸 수 있음
@@ -751,6 +753,23 @@ function createRouter(routes) {
         });
         routeRender(routes);
     };
+}
+class Store {
+    constructor(state){
+        this.state = {};
+        this.observers = {};
+        // 객체데이터 반복 - For in
+        for(const key in state)Object.defineProperty(this.state, key, {
+            get: ()=>state[key],
+            set: (val)=>{
+                state[key] = val;
+                this.observers[key]();
+            }
+        });
+    }
+    subscribe(key, cb) {
+        this.observers[key] = cb;
+    }
 }
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"1yj35":[function(require,module,exports) {
@@ -820,16 +839,69 @@ exports.default = (0, _heropyJs.createRouter)([
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _heropyJs = require("../core/heropy.js");
+var _textFieldJs = require("../components/TextField.js");
+var _textFieldJsDefault = parcelHelpers.interopDefault(_textFieldJs);
+var _messageJs = require("../components/Message.js");
+var _messageJsDefault = parcelHelpers.interopDefault(_messageJs);
 class Home extends (0, _heropyJs.Component) {
     render() {
         this.el.innerHTML = /* html */ `
             <h1>Home Page!</h1>
         `;
+        this.el.append(new (0, _textFieldJsDefault.default)().el, new (0, _messageJsDefault.default)().el);
     }
 }
 exports.default = Home;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../core/heropy.js":"kVcDV"}],"eoZyX":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../core/heropy.js":"kVcDV","../components/TextField.js":"kikcd","../components/Message.js":"8TIlP"}],"kikcd":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _heropyJs = require("../core/heropy.js");
+var _messageJs = require("../store/message.js");
+var _messageJsDefault = parcelHelpers.interopDefault(_messageJs);
+class TextField extends (0, _heropyJs.Component) {
+    render() {
+        this.el.innerHTML = /*html*/ `
+        <input value="${(0, _messageJsDefault.default).state.message}"/>
+        `;
+        const inputEl = this.el.querySelector("input");
+        inputEl.addEventListener("input", ()=>{
+            (0, _messageJsDefault.default).state.message = inputEl.value;
+        });
+    }
+}
+exports.default = TextField;
+
+},{"../core/heropy.js":"kVcDV","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../store/message.js":"eBQxf"}],"eBQxf":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _heropyJs = require("../core/heropy.js");
+exports.default = new (0, _heropyJs.Store)({
+    message: "Hello~"
+});
+
+},{"../core/heropy.js":"kVcDV","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"8TIlP":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _heropyJs = require("../core/heropy.js");
+var _messageJs = require("../store/message.js");
+var _messageJsDefault = parcelHelpers.interopDefault(_messageJs);
+class Message extends (0, _heropyJs.Component) {
+    constructor(){
+        super();
+        (0, _messageJsDefault.default).subscribe("message", ()=>{
+            this.render();
+        });
+    }
+    render() {
+        this.el.innerHTML = /* html */ `
+        <h2>${(0, _messageJsDefault.default).state.message}</h2>
+        `;
+    }
+}
+exports.default = Message;
+
+},{"../core/heropy.js":"kVcDV","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../store/message.js":"eBQxf"}],"eoZyX":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _heropyJs = require("../core/heropy.js");
